@@ -5,6 +5,8 @@ const postRouter = require("./routers/posts");
 
 app.use(express.json());
 
+app.use("/api/posts", postRouter);
+
 app.use(express.static("public"));
 
 app.listen(PORT, () => {
@@ -14,8 +16,6 @@ app.listen(PORT, () => {
 app.get("/", (req, res) => {
   res.send("Server del mio blog");
 });
-
-app.use("/api/posts", postRouter);
 
 /* 
 const posts = [

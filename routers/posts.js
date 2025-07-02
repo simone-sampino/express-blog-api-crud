@@ -1,121 +1,25 @@
 const express = require("express");
 const router = express.Router();
-const posts = require("../data/list");
+const postController = require("../controllers/postsControllers");
+// const posts = require("../data/list");
 // const PORT = process.env.PORT;
 
 // Index (read)
-router.get("/", (req, res) => {
-  let filteredPost = posts;
-
-  if (req.query.tag) {
-    filteredPost = posts.filter((thisPost) =>
-      thisPost.tags.includes(req.query.tag)
-    );
-  }
-
-  res.json(filteredPost);
-});
+router.get("/", postController.index);
 
 // Show (read)
-router.get("/:id", (req, res) => {
-  console.log(req.params);
-  const id = parseInt(req.params.id);
-
-  const thisPost = posts.find((thisPost) => thisPost.id === id);
-
-  if (!thisPost) {
-    res.status(404);
-
-    return res.json({
-      status: 404,
-      error: "Not Found",
-      message: "Post not found",
-    });
-  }
-
-  res.json(thisPost);
-
-  // res.send(`You requested the recipe with id: ${id}`);
-});
+router.get("/:id", postController.show);
 
 // Store (create)
-router.post("/", (req, res) => {
-  const newId = posts[posts.length - 1].id + 1;
-
-  const newPost = {
-    id: newId,
-    title: req.body.title,
-    content: req.body.content,
-    image: req.body.image,
-    tags: req.body.tags,
-  };
-
-  posts.push(newPost);
-
-  console.log(posts);
-
-  res.status(201);
-  res.json(newPost);
-
-  // res.send("Save a new recipe into the db");
-});
+router.post("/", postController.store);
 
 // Update (update)
-router.put("/:id", (req, res) => {
-  const id = parseInt(req.params.id);
-
-  const thisPost = posts.find((thisPost) => thisPost.id === id);
-
-  if (!thisPost) {
-    res.status(404);
-
-    return res.json({
-      error: "Not Found",
-      message: "Post not found",
-    });
-  }
-
-  (thisPost.title = req.body.title),
-    (thisPost.content = req.body.content),
-    (thisPost.image = req.body.image),
-    (thisPost.tags = req.body.tags),
-    console.log(posts);
-
-  res.json(thisPost);
-
-  // res.send(`You want to update recipe with id: ${id}`);
-});
+router.put("/:id", postController.update);
 
 // Modify (update)
-router.patch("/:id", (req, res) => {
-  const id = req.params.id;
-
-  res.send(`You want to modify recipe with id: ${id}`);
-});
+router.patch("/:id", postController.modify);
 
 // Destroy (delete)
-router.delete("/:id", (req, res) => {
-  const id = parseInt(req.params.id);
-
-  const thisPost = posts.find((thisPost) => thisPost.id === id);
-
-  if (!thisPost) {
-    res.status(404);
-
-    return res.json({
-      status: 404,
-      error: "Not Found",
-      message: "Post not found",
-    });
-  }
-
-  posts.splice(posts.indexOf(thisPost), 1);
-
-  res.sendStatus(204);
-
-  console.log(posts);
-
-  // res.send(`You want to delete recipe with id: ${id}`);
-});
+router.delete("/:id", postController.destroy);
 
 module.exports = router;
