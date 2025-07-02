@@ -40,7 +40,24 @@ router.get("/:id", (req, res) => {
 
 // Store (create)
 router.post("/", (req, res) => {
-  res.send("Save a new recipe into the db");
+  const newId = posts[posts.length - 1].id + 1;
+
+  const newPost = {
+    id: newId,
+    title: req.body.title,
+    content: req.body.content,
+    image: req.body.image,
+    tags: req.body.tags,
+  };
+
+  posts.push(newPost);
+
+  console.log(posts);
+
+  res.status(201);
+  res.json(newPost);
+
+  // res.send("Save a new recipe into the db");
 });
 
 // Update (update)
