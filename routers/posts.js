@@ -5,7 +5,15 @@ const posts = require("../data/list");
 
 // Index (read)
 router.get("/", (req, res) => {
-  res.json(posts);
+  let filteredPost = posts;
+
+  if (req.query.tag) {
+    filteredPost = posts.filter((thisPost) =>
+      thisPost.tags.includes(req.query.tag)
+    );
+  }
+
+  res.json(filteredPost);
 });
 
 // Show (read)
@@ -14,6 +22,16 @@ router.get("/:id", (req, res) => {
   const id = parseInt(req.params.id);
 
   const thisPost = posts.find((thisPost) => thisPost.id === id);
+
+  if (!thisPost) {
+    res.status(404);
+
+    return res.json({
+      status: 404,
+      error: "Not Found",
+      message: "Post not found",
+    });
+  }
 
   res.json(thisPost);
 
