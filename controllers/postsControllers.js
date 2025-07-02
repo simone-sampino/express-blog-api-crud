@@ -72,11 +72,11 @@ function update(req, res) {
     });
   }
 
-  (thisPost.title = req.body.title),
-    (thisPost.content = req.body.content),
-    (thisPost.image = req.body.image),
-    (thisPost.tags = req.body.tags),
-    console.log(posts);
+  thisPost.title = req.body.title;
+  thisPost.content = req.body.content;
+  thisPost.image = req.body.image;
+  thisPost.tags = req.body.tags;
+  console.log(posts);
 
   res.json(thisPost);
 
