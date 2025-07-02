@@ -62,9 +62,28 @@ router.post("/", (req, res) => {
 
 // Update (update)
 router.put("/:id", (req, res) => {
-  const id = req.params.id;
+  const id = parseInt(req.params.id);
 
-  res.send(`You want to update recipe with id: ${id}`);
+  const thisPost = posts.find((thisPost) => thisPost.id === id);
+
+  if (!thisPost) {
+    res.status(404);
+
+    return res.json({
+      error: "Not Found",
+      message: "Post not found",
+    });
+  }
+
+  (thisPost.title = req.body.title),
+    (thisPost.content = req.body.content),
+    (thisPost.image = req.body.image),
+    (thisPost.tags = req.body.tags),
+    console.log(posts);
+
+  res.json(thisPost);
+
+  // res.send(`You want to update recipe with id: ${id}`);
 });
 
 // Modify (update)
