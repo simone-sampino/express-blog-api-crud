@@ -3,6 +3,7 @@ const app = express();
 const PORT = process.env.PORT;
 const postRouter = require("./routers/posts");
 const notFound = require("./middlewares/notFound");
+const handlerError = require("./middlewares/handlerError");
 
 app.use(express.json());
 
