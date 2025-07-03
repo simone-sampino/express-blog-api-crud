@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT;
 const postRouter = require("./routers/posts");
+const notFound = require("./middlewares/notFound");
 
 app.use(express.json());
 
@@ -16,6 +17,8 @@ app.listen(PORT, () => {
 app.get("/", (req, res) => {
   res.send("Server del mio blog");
 });
+
+app.use(notFound);
 
 /* 
 const posts = [
